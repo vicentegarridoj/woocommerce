@@ -303,6 +303,7 @@ function wc_get_held_stock_quantity( $product, $exclude_order_id = 0 ) {
 	global $wpdb;
 
 	return $wpdb->get_var(
+		//phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		$wpdb->prepare(
 			"
 			SELECT SUM( order_item_meta.meta_value ) AS held_qty
@@ -323,7 +324,8 @@ function wc_get_held_stock_quantity( $product, $exclude_order_id = 0 ) {
 			$product->get_stock_managed_by_id(),
 			$exclude_order_id
 		)
-	); // WPCS: unprepared SQL ok.
+		//phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+	);
 }
 
 /**
