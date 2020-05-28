@@ -296,11 +296,23 @@ class WC_Install {
 		self::maybe_enable_setup_wizard();
 		self::update_wc_version();
 		self::maybe_update_db_version();
+		self::maybe_enable_homepage();
 
 		delete_transient( 'wc_installing' );
 
 		do_action( 'woocommerce_flush_rewrite_rules' );
 		do_action( 'woocommerce_installed' );
+	}
+
+	/**
+	 * Check if the homepage should be enabled and set the appropriate option if thats the case.
+	 *
+	 * @since 4.3.0
+	 */
+	private static function maybe_enable_homepage() {
+		if ( self::is_new_install() && ! get_option( 'woocommerce_homescreen_enabled' ) ) {
+			add_option( 'woocommerce_homescreen_enabled', 'yes' );
+		}
 	}
 
 	/**
